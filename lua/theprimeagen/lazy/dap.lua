@@ -149,36 +149,38 @@ return {
             "neovim/nvim-lspconfig",
         },
         config = function()
-            require("mason-nvim-dap").setup({
-                ensure_installed = {
-                    "delve",
-                },
-                automatic_installation = true,
-                handlers = {
-                    function(config)
-                        require("mason-nvim-dap").default_setup(config)
-                    end,
-                    delve = function(config)
-                        table.insert(config.configurations, 1, {
-                            args = function() return vim.split(vim.fn.input("args> "), " ") end,
-                            type = "delve",
-                            name = "file",
-                            request = "launch",
-                            program = "${file}",
-                            outputMode = "remote",
-                        })
-                        table.insert(config.configurations, 1, {
-                            args = function() return vim.split(vim.fn.input("args> "), " ") end,
-                            type = "delve",
-                            name = "file args",
-                            request = "launch",
-                            program = "${file}",
-                            outputMode = "remote",
-                        })
-                        require("mason-nvim-dap").default_setup(config)
-                    end,
-                },
-            })
+            -- This is needed for Go debugging:
+
+            -- require("mason-nvim-dap").setup({
+            --     ensure_installed = {
+            --         "delve",
+            --     },
+            --     automatic_installation = true,
+            --     handlers = {
+            --         function(config)
+            --             require("mason-nvim-dap").default_setup(config)
+            --         end,
+            --         delve = function(config)
+            --             table.insert(config.configurations, 1, {
+            --                 args = function() return vim.split(vim.fn.input("args> "), " ") end,
+            --                 type = "delve",
+            --                 name = "file",
+            --                 request = "launch",
+            --                 program = "${file}",
+            --                 outputMode = "remote",
+            --             })
+            --             table.insert(config.configurations, 1, {
+            --                 args = function() return vim.split(vim.fn.input("args> "), " ") end,
+            --                 type = "delve",
+            --                 name = "file args",
+            --                 request = "launch",
+            --                 program = "${file}",
+            --                 outputMode = "remote",
+            --             })
+            --             require("mason-nvim-dap").default_setup(config)
+            --         end,
+            --     },
+            -- })
         end,
     },
 }
