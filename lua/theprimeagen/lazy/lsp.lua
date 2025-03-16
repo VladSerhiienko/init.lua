@@ -35,32 +35,41 @@ return {
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
+                -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#wgsl_analyzer:
                 "lua_ls",
-                "rust_analyzer",
+                "clangd",
+                "cmake",
+                -- "cmake-language-server",
+                -- "rust_analyzer",
+                -- "zls",
+                -- "wgsl_analyzer",
+                -- "wasm_language_tools",
+                -- "glsl_analyzer",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
+                    print("[lsp.lua]: installing " .. server_name)
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities
                     }
                 end,
 
-                zls = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.zls.setup({
-                        root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
-                        settings = {
-                            zls = {
-                                enable_inlay_hints = true,
-                                enable_snippets = true,
-                                warn_style = true,
-                            },
-                        },
-                    })
-                    vim.g.zig_fmt_parse_errors = 0
-                    vim.g.zig_fmt_autosave = 0
+                -- zls = function()
+                --     local lspconfig = require("lspconfig")
+                --     lspconfig.zls.setup({
+                --         root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
+                --         settings = {
+                --             zls = {
+                --                 enable_inlay_hints = true,
+                --                 enable_snippets = true,
+                --                 warn_style = true,
+                --             },
+                --         },
+                --     })
+                --     vim.g.zig_fmt_parse_errors = 0
+                --     vim.g.zig_fmt_autosave = 0
+                -- end,
 
-                end,
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
